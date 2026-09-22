@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Matthew's Mycodex — mushroom identification</title>
+<meta name="description" content="A searchable personal record of mushroom species found and identified to species.">
+<meta name="theme-color" content="#221D17">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="app">
+
+  <header class="ledger-head">
+    <div class="head-row">
+      <div class="head-text">
+        <h1>Matthew's Mycodex</h1>
+        <p class="tagline">So I can find what I found again.</p>
+      </div>
+      <nav class="socials" aria-label="Social media links">
+        <a class="social-link" href="https://www.tiktok.com/@life.art.fungi" target="_blank" rel="noopener" aria-label="TikTok">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16 3c.3 2.1 1.7 3.6 4 3.9v2.6c-1.4 0-2.8-.4-4-1.2v6.4a5.3 5.3 0 1 1-5.3-5.3c.3 0 .6 0 .9.1v2.7a2.6 2.6 0 1 0 1.8 2.5V3H16Z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>
+        </a>
+        <a class="social-link" href="https://www.instagram.com/lifeartfungi/" target="_blank" rel="noopener" aria-label="Instagram">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="5" fill="none" stroke="currentColor" stroke-width="1.4"/><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="1.4"/><circle cx="16.6" cy="7.4" r="1" fill="currentColor"/></svg>
+        </a>
+        <a class="social-link" href="https://www.facebook.com/profile.php?id=61577759919265" target="_blank" rel="noopener" aria-label="Facebook">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8" fill="none" stroke="currentColor" stroke-width="1.4"/><text x="12" y="16.5" text-anchor="middle" font-family="Georgia, serif" font-size="11" fill="currentColor">f</text></svg>
+        </a>
+        <a class="social-link" href="https://lifeartfungi.substack.com/" target="_blank" rel="noopener" aria-label="Substack">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6h12v2H6V6Zm0 4h12v2H6v-2Zm0 4h12v5l-6-3-6 3v-5Z" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg>
+        </a>
+        <a class="social-link" href="https://www.youtube.com/@LifeArtFungi" target="_blank" rel="noopener" aria-label="YouTube">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="6.5" width="17" height="11" rx="3" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M10.5 9.5v5l4.5-2.5-4.5-2.5Z" fill="currentColor"/></svg>
+        </a>
+      </nav>
+    </div>
+    <dl class="stats" id="stats" aria-label="Collection summary"></dl>
+  </header>
+
+  <section class="controls" aria-label="Search and filter">
+    <div class="search-wrap">
+      <label for="search" class="visually-hidden">Search everything</label>
+      <input id="search" type="text" placeholder="Search anything — name, family, spore colour, ecology…" autocomplete="off" spellcheck="false">
+    </div>
+    <div class="filters">
+      <label class="visually-hidden" for="filterOrder">Filter by order</label>
+      <select id="filterOrder"><option value="">All orders</option></select>
+
+      <label class="visually-hidden" for="filterFamily">Filter by family</label>
+      <select id="filterFamily"><option value="">All families</option></select>
+
+      <label class="visually-hidden" for="filterGenus">Filter by genus</label>
+      <select id="filterGenus"><option value="">All genera</option></select>
+
+      <label class="visually-hidden" for="filterInformal">Filter by informal group name</label>
+      <select id="filterInformal"><option value="">All informal groups</option></select>
+
+      <label class="visually-hidden" for="filterSporeColour">Filter by spore colour</label>
+      <select id="filterSporeColour"><option value="">All spore colours</option></select>
+
+      <label class="visually-hidden" for="filterDNA">Filter by DNA confirmation</label>
+      <select id="filterDNA">
+        <option value="">DNA confirmed?</option>
+        <option value="yes">DNA confirmed</option>
+        <option value="no">Not DNA confirmed</option>
+      </select>
+
+      <button id="clearFilters" class="ghost-btn" type="button">Clear filters</button>
+    </div>
+    <p class="result-count" id="resultCount" role="status" aria-live="polite"></p>
+  </section>
+
+  <section class="table-wrap" aria-label="Species list">
+    <div class="row row-head" role="row">
+      <button class="sort-btn" data-sort="common_name" role="columnheader">Common name</button>
+      <button class="sort-btn" data-sort="scientific_name" role="columnheader">Scientific name</button>
+      <button class="sort-btn" data-sort="family" role="columnheader">Family</button>
+      <button class="sort-btn" data-sort="sporeColour" role="columnheader">Spore colour</button>
+    </div>
+
+    <div id="rows"></div>
+
+    <div id="loadingState" class="state-message">Loading your ledger…</div>
+    <div id="errorState" class="state-message state-error" hidden></div>
+    <div id="emptyState" class="state-message" hidden>Nothing matches that search. Try a different word, or clear filters.</div>
+  </section>
+
+  <footer class="ledger-foot">
+    <p>Data merged from iNaturalist observations and manual field notes.</p>
+  </footer>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
