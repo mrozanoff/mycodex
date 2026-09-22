@@ -5,7 +5,7 @@
 =========================================================== */
 const CONFIG = {
   INAT_DATA_URL: "data/inat_data.json",
-  MANUAL_DATA_URL: "data/manual_data.csv",
+  MANUAL_DATA_URL: "https://docs.google.com/spreadsheets/d/e/2PACX-1vRkAO8yDUWx4zAi5VSRcks6eIF5Ue0nArbeFASacMzrlH9MouYuctWKCyYboIWjhbXAfyXoyomE1U3U/pub?gid=0&single=true&output=csv",
 };
 
 // Manual fields, in the order they'll render in the detail panel.
